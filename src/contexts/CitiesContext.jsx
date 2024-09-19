@@ -30,11 +30,6 @@ function reducer(state, action){
 }
 
 function CitiesProvider({children}){
-    // The below are global state.
-    // const [cities, setCities] = useState([]);
-    // const [isLoading, setIsLoading] = useState(false);
-    // const [currentCity, setCurrentCity] = useState({});
-
     const[{cities, isLoading, currentCity}, dispatch] = useReducer(reducer, initialItems);
 
     useEffect(function () {
