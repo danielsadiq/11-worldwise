@@ -1,23 +1,40 @@
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import Product from "./pages/Product";
-import Pricing from "./pages/Pricing";
-import HomePage from "./pages/HomePage";
-import Login from "./pages/Login";
-import PageNotFound from "./pages/PageNotFound";
-import AppLayout from "./pages/AppLayout";
+
+import { CitiesProvider } from "./contexts/CitiesContext";
+import { AuthProvider } from "./contexts/FakeAuthContext";
+import ProtectedRoute from "./pages/ProtectedRoute";
+
+// import Product from "./pages/Product";
+// import Pricing from "./pages/Pricing";
+// import HomePage from "./pages/HomePage";
+// import Login from "./pages/Login";
+// import PageNotFound from "./pages/PageNotFound";
+// import AppLayout from "./pages/AppLayout";
+
+// dist/index.html                   0.47 kB │ gzip:   0.30 kB
+// dist/assets/index-68a54e7d.css   30.15 kB │ gzip:   5.09 kB
+// dist/assets/index-c2e40aa5.js   510.02 kB │ gzip: 148.93 kB
+
 import CityList from "./components/CityList";
 import CountryList from "./components/CountryList";
 import City from "./components/City";
 import Form from "./components/Form";
-import { CitiesProvider } from "./contexts/CitiesContext";
-import { AuthProvider } from "./contexts/FakeAuthContext";
-import ProtectedRoute from "./pages/ProtectedRoute";
+import SpinnerFullPage from "./components/SpinnerFullPage";
+
+const HomePage = lazy(() => import('./pages/HomePage'));
+const Product = lazy(() => import('./pages/Product'));
+const Pricing = lazy(() => import('./pages/Pricing'));
+const Login = lazy(() => import('./pages/Login'));
+const PageNotFound = lazy(() => import('./pages/PageNotFound'));
+const AppLayout = lazy(() => import('./pages/AppLayout'));
 
 function App() {
     return (
         <CitiesProvider>
             <AuthProvider>
                 <BrowserRouter>
+                    <Suspense fallback={<SpinnerFullPage/>}>
                     <Routes>
                         <Route index
                             /*index or path="/" */ element={<HomePage />}
@@ -44,6 +61,7 @@ function App() {
                         </Route>
                         <Route path="*" element={<PageNotFound />} />
                     </Routes>
+                    </Suspense>
                 </BrowserRouter>
             </AuthProvider>
         </CitiesProvider>

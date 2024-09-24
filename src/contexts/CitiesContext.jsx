@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { createContext, useContext, useEffect, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer, useCallback } from "react";
 
 const CitiesContext = createContext();
 
@@ -47,7 +47,7 @@ function CitiesProvider({children}){
         
     }, []);
 
-    async function getCity(id){
+    const getCity = useCallback(async function getCity(id){
         if (currentCity.id === Number(id)){
             dispatch({type: "city/loaded", payload:currentCity});
             return;
@@ -60,7 +60,7 @@ function CitiesProvider({children}){
         } catch (error) {
             dispatch({type:'rejected',paylaod: "There was an error loading the city..."})
         } 
-    }
+    }, [currentCity])
 
     async function createCity(newCity){
         dispatch({type:"loading"});

@@ -48,7 +48,7 @@ export default function Login() {
 
                 <div>
                     {/* <Link to='/app'> */}
-                    <button className="">Login</button>
+                    <button className={styles.ctaLink}>Login</button>
                     {/* </Link> */}
                 </div>
             </form>
